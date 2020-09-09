@@ -23,6 +23,9 @@ h4 {
 .zoom:hover {
   transform: scale(2);
 }
+.smol {
+  font-size: 0.7rem;
+}
 </style>
 <body>
   <div class="container">
@@ -32,184 +35,231 @@ h4 {
       <h5>Imaani Choudhuri</h5>
     </div>
     <div class="row">
-    <div class="col s12 m6">
       <h6 class="smallheader">Overview</h6>
       <p>
-      This website is incompleto
+      In this project, digitized versions of photographs transferred onto blue, green, and red plates were recombined into one color image. The objective was to computationally determine the offsets of the three channels that produces the sharpest color image.
       </p>
-      </div>
-    <div class="col s12 m6">
-      <h6 class="smallheader">Approach</h6>
+      <div class="col m6">
+        <h6 class="smallheader">Approach</h6>
       <p>
-      incompleto dorito
+      The strategy for the low-quality jpg images was to search all possible offsets between [-15, 15] in both x and y for the red and green channels, and use a metric to choose which offset was best. I tried both the <b>L2 norm</b> (smallest norm after subtracting from blue) and <b>normalized cross correlation</b> (largest dot product between a channel and blue after normalizing). The results were virtually the same, I used normalized cross correlation for images below.
       </p>
+      <p> The higher quality .tif images required an <b>image pyramid</b>, which starts with a scaled down image, finds the best offset via the low-quality strategy, and then scales up the image by a factor α to repeat the process. The search space is reduced since we know that the new offset should lie within a factor of α from the previous offset. </p>
       </div>
+
+      <div class="col m6">
+        <h6 class="smallheader">Problems & Solutions</h6>
+      <p> One problem I ran into was that the icon and emir images had very misaligned red channels. I was able to fix this for icon by reducing the levels in the image pyramid, since it was using an image that was too small and thus lost too much detail to determine the initial best offset at the highest level.
+
+        <p>However, this algorithm generally fails on emir, because a significant portion of the pixels in emir are used to represent the blue robe. This means that the blue channel and the red channel differ significantly along the robe area, and so using either L2 norm or cross correlation will find an offset that likely doesn't match along the robe. My attempts to fix this are in the <b>Bells and Whistles section</b>.
+        </div>
     </div>
+    <span class="smol">hover to enlarge</span>
      <div class="row">
      <div class="col s12 m4">
        <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: -3, 2 <br>
+       red offset: 3, 2
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/monastery.jpg" width="350" height="300">
      </div>
      <div class="col s12 m4">
      <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 3, 2 <br>
+       red offset: 6, 3
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/tobolsk.jpg" width="350" height="300">
      </div><div class="col s12 m4">
        <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 5, 2 <br>
+       red offset: 12, 3
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/cathedral.jpg" width="350" height="300">
      </div>
      </div>
           <div class="row">
      <div class="col s12 m4">
        <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 52, -1 <br>
+       red offset: 104, 12
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/workshop.jpg" width="350" height="300">
      </div>
      <div class="col s12 m4">
      <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 49, 24 <br>
+       red offset: -279, -464
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/emir.jpg" width="350" height="300">
      </div><div class="col s12 m4">
        <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 53, 12 <br>
+       red offset: 110, 9
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/three_generations.jpg" width="350" height="300">
      </div>
      </div>
           <div class="row">
      <div class="col s12 m4">
        <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 35, 3 <br>
+       red offset: 98, 3
        </p>
        <img class="zoom" src="images/castle.jpg" width="350" height="300">
      </div>
      <div class="col s12 m4">
      <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 80, 6 <br>
+       red offset: 178, 11
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/melons.jpg" width="350" height="300">
      </div><div class="col s12 m4">
        <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 51, 26 <br>
+       red offset: 108, 36
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/onion_church.jpg" width="350" height="300">
      </div>
      </div>
           <div class="row">
      <div class="col s12 m4">
        <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 41, 4 <br>
+       red offset: 86, 31
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/train.jpg" width="350" height="300">
      </div>
      <div class="col s12 m4">
      <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 41, 17 <br>
+       red offset: 89, 23
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/icon.jpg" width="350" height="300">
      </div><div class="col s12 m4">
        <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 78, 28 <br>
+       red offset: 174, 31
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/self_portrait.jpg" width="350" height="300">
      </div>
      </div>
           <div class="row">
      <div class="col s12 m4">
        <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 59, 15 <br>
+       red offset: 123, 13
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/harvesters.jpg" width="350" height="300">
      </div>
      <div class="col s12 m4">
      <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       green offset: 53, 8 <br>
+       red offset: 115, 10
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/lady.jpg" width="350" height="300">
      </div><div class="col s12 m4">
-       <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
-       </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
      </div>
      </div>
       <div class="row">
-       <h6 class="smallheader">Bells and Whistles</h6>
+       <h6 class="smallheader">Bells and Whistles: Correlation</h6>
       <p>
-      There were two things I experimented with
+      One thing I realized playing around with cross correlation was that the emir image had notably lower cross correlation between the blue and red channels prior to pyramid processing, compared to the blue and green channels. However, the cross correlation between red and green was more comparable to that of blue and green. Since I was using NCC to determine similarity, it would make sense for my algorithm to compare channels that had a higher correlation to begin with, since that would be more likely to succeed overall.
       </p>
-           <div class="row">
-     <div class="col s12 m4">
-       <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
-       </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
-     </div>
-     <div class="col s12 m4">
-     <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
-       </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
-     </div><div class="col s12 m4">
-       <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
-       </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
-     </div>
-     </div>
+      <p>The following images were produced using this strategy: instead of comparing red and green channels to blue, calculate the cross correlation between blue/red, red/green and blue/green, and select the pair with the largest such correlation. The offsets were determined using the channel in common as the static one and comparing the other channels to that one, and running the same pyramid from earlier.</p>
+      <p> This fixed the issues with emir, and also has a slight improvement on self_portrait (most visible by comparing the area to the left of the man). The other images run through appeared largely the same.</p>
       </div>
-             <h6 class="smallheader">Bells and Whistles</h6>
-      <p>
-      There were two things I experimented with
-      </p>
-           <div class="row">
-     <div class="col s12 m4">
+    <div class="row">
+     <div class="col s12 m6">
        <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+         green offset: 49, 24 <br>
+         red offset: -279, -464
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/emir.jpg" width="350" height="300">
      </div>
-     <div class="col s12 m4">
+     <div class="col s12 m6">
      <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
+       blue offset: -49, -24 <br>
+       red offset: 57, 16
        </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
-     </div><div class="col s12 m4">
-       <p>
-       green offset: 12, 12 <br>
-       red offset: 12, 12
-       </p>
-       <img class="zoom" src="images/castle.jpg" width="350" height="300">
+       <img class="zoom" src="images/max_correlation_emir.jpg" width="350" height="300">
      </div>
      </div>
-  </div>
-<div class="row">
+     <div class="row">
+      <div class="col s12 m6">
+        <p>
+        green offset: 78, 28 <br>
+        red offset: 174, 31
+        </p>
+        <img class="zoom" src="images/self_portrait.jpg" width="350" height="300">
+      </div>
+      <div class="col s12 m6">
+        <p>
+          blue offset: -78, -28 <br>
+          red offset: 98, 8
+        </p>
+        <img class="zoom" src="images/max_correlation_self_portrait.jpg" width="350" height="300">
+      </div>
+      </div>
+     <div class="row">
+      <h6 class="smallheader">Bells and Whistles: Gradients</h6>
+     <p>
+     The other thing I experimented with was using the gradient of the matrix to align the matrices. The thought was that since gradients will visualize the changes in values across the matrix, they can be used for basic edge detection and so the alignment search mentioned earlier will find higher correlation if edges match between channels. I also thought this would fix emir because the changes in value should be similar across all channels, even if one has more steep changes in value.
+     </p>
+     <p>The following images were produced by changing the pyramid algorithm to attempt to align gradients of the channels instead of the channels themselves, and finding the best offset to do so. Then, aligning the original channels using this discovered offset. </p>
+     <p>
+       While the result is an improvement on emir from the base algorithm, it doesn't improve any of the other images. As you can see, this strategy works better if there is one subject and a neutral background, as opposed to lots of color changes within the image. One hypothesis for why this didn't work so well is that when scaling down for the image pyramid, the gradient upon the downscaled version isn't representative of the gradient along the base image, and leads the offsets astray in the beginning iterations. Another contributing factor is how the gradient consisted of small floats in the -0.5 to +0.5 range, with large areas of similar color being ~0, therefore the cross correlation would not be a very robust metric of similarity. 
+     </div>
+     <div class="row">
+      <div class="col s12 m6">
+        <p>
+          green offset: 49, 24 <br>
+          red offset: -279, -464
+          </p>
+          <img class="zoom" src="images/emir.jpg" width="350" height="300">
+      </div>
+      <div class="col s12 m6">
+        <p>
+          green offset: 31, 19 <br>
+          red offset: 31, 31
+          </p>
+          <img class="zoom" src="images/gradient_emir.jpg" width="350" height="300">
+      </div>
+      </div>
+      <div class="row">
+       <div class="col s12 m6">
+         <p>
+         green offset: 78, 28 <br>
+         red offset: 174, 31
+         </p>
+         <img class="zoom" src="images/self_portrait.jpg" width="350" height="300">
+       </div>
+       <div class="col s12 m6">
+         <p>
+           green offset: 31, 0 <br>
+           red offset: 0, -3
+         </p>
+         <img class="zoom" src="images/gradient_self_portrait.jpg" width="350" height="300">
+       </div>
+       </div>
+       <div class="row">
+        <div class="col s12 m6">
+          <p>
+            green offset: 53, 8 <br>
+            red offset: 115, 10
+            </p>
+            <img class="zoom" src="images/lady.jpg" width="350" height="300">
+        </div>
+        <div class="col s12 m6">
+          <p>
+            green offset: 31, 7 <br>
+            red offset: 31, -9
+          </p>
+          <img class="zoom" src="images/gradient_lady.jpg" width="350" height="300">
+        </div>
+        </div>
+     <div class="row">
+       <span class="smol">thanks for checking out my submission! :D</span>
+       <!-- (i like this class, please let me off the waitlist) -->
+       </div>
   </div>
 </body>
