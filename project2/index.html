@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en"></html><head>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<style>
+body{
+  color: #6F6866;
+}
+h1 {
+    color: #788585;
+    font-weight: 300;
+}
+h4 {
+    color: #38302E;
+}
+.smallheader {
+    color: #FFBA08;
+    font-weight: bold;
+}
+.zoom:hover {
+  transform: scale(2);
+}
+.smol {
+  font-size: 0.7rem;
+}
+</style>
+<body>
+  <div class="container">
+    <div class="row">
+      <h1 class="header">CS 194-26: Project 2</h1>
+      <h4>Fun with Filters and Frequencies!</h4>
+      <h5>Imaani Choudhuri</h5>
+    </div>
+    <div class="row">
+      <h6 class="smallheader">Part 1.1</h6>
+      <p>
+      In this part of the project, the partial derivatives with respect to X and Y are estimated using convolution of the cameraman image with the finite difference operators: [1, -1] and its transpose vector. To construct the gradient, a vector of partial derivatives, we can simply create a vector with the two partial derivatives found earlier as elements. To compute the magnitude of this gradient, we can compute it the same way we would compute the magnitude of any vector: by squaring each element, taking the sum, and then taking the square root. Since the elements of the gradient vector are matrices, we conduct these actions on the matrices: element-wise square, matrix addition, and element-wise square root to get our gradient magnitude matrix, which we then binarize to get edges.
+      </p>
+    </div>
+    <span class="smol">hover to enlarge</span>
+     <div class="row">
+     <div class="col s12 m3">
+     <p>
+       Partial with respect to X 
+       </p>
+       <img class="zoom" src="images/1.1_partialX.jpg" width="200" height="200">
+     </div>
+     <div class="col s12 m3">
+       <p>
+        Partial with respect to Y
+       </p>
+       <img class="zoom" src="images/1.1_partialY.jpg" width="200" height="200">
+     </div>
+     <div class="col s12 m3">
+      <p>
+        Gradient magnitude
+      </p>
+      <img class="zoom" src="images/1.1_gradient.jpg" width="200" height="200">
+    </div>     
+    <div class="col s12 m3">
+      <p>
+      Edge image
+      </p>
+      <img class="zoom" src="images/1.1_binarized.jpg" width="200" height="200">
+    </div>
+    </div>
+    <div class="row">
+      <h6 class="smallheader">Part 1.2</h6>
+      <p>
+      Now, we convolve the image with a 2d Gaussian before doing the same actions as 1.1. We can see that the partials have much more defined and continuous edges than 1.1, and the resulting gradient magnitude image has smooth edges with less noise. By binarizing, we find thicker edges with less noise. This is due to the smoothing effect of Gaussian blur - by averaging each pixel with its surrounding pixels, we reduce the small, abrupt changes in value and preserve only the major shifts.
+      </p>
+    </div>
+    <div class="row">
+      <div class="col s12 m3">
+      <p>
+        Partial with respect to X 
+        </p>
+        <img class="zoom" src="images/1.2_partialX.jpg" width="200" height="200">
+      </div>
+      <div class="col s12 m3">
+        <p>
+         Partial with respect to Y
+        </p>
+        <img class="zoom" src="images/1.2_partialY.jpg" width="200" height="200">
+      </div>
+      <div class="col s12 m3">
+       <p>
+         Gradient magnitude
+       </p>
+       <img class="zoom" src="images/1.2_gradient.jpg" width="200" height="200">
+     </div>     
+     <div class="col s12 m3">
+       <p>
+       Edge image
+       </p>
+       <img class="zoom" src="images/1.2_binarized.jpg" width="200" height="200">
+     </div>
+     </div>
+     <div class="row">
+      <p>
+      To reduce computation but get the same result, we can convolve the Gaussian with the finite difference operators first, and convolve that result with the original image. These operations are equivalent to what we did just before due to the commutativity and associativity of convolution. The resulting edge images are the same.
+      </p>
+    </div>
+     <div class="row">
+      <div class="col s12 m3">
+      <p>
+        Derivative of Gaussian wrt X 
+        </p>
+        <img class="zoom" src="images/dogX.jpg" width="200" height="200">
+      </div>
+      <div class="col s12 m3">
+        <p>
+          Derivative of Gaussian wrt Y 
+        </p>
+        <img class="zoom" src="images/dogY.jpg" width="200" height="200">
+      </div>
+      <div class="col s12 m3">
+       <p>
+         Convolve DoG wrt X with original
+       </p>
+       <img class="zoom" src="images/dogX_applied.jpg" width="200" height="200">
+     </div>     
+     <div class="col s12 m3">
+       <p>
+        Convolve DoG wrt Y with original
+       </p>
+       <img class="zoom" src="images/dogY_applied.jpg" width="200" height="200">
+     </div>
+     </div>
+     <div class="row">
+      <div class="col s12 m4">
+      <p>
+        Gradient magnitude using partials from applying DoG  
+        </p>
+        <img class="zoom" src="images/1.2_other_gradient.jpg" width="200" height="200">
+      </div>
+     <div class="row">
+      <div class="col s12 m4">
+      <p>
+        Binarized gradient magnitude using (original * (Gaussian * finite difference))
+        </p>
+        <img class="zoom" src="images/1.2_other_binarized.jpg" width="200" height="200">
+      </div>
+      <div class="col s12 m4">
+        <p>
+          Binarized gradient magnitude using ((Gaussian * original) * finite difference)
+          </p>
+          <img class="zoom" src="images/1.2_binarized.jpg" width="200" height="200">
+        </div>
+     </div>
+     <div class="row">
+      <h6 class="smallheader">Part 1.3</h6>
+      <p>
+      In this part, we computationally determine the best angle to straighten an image. By selecting the rotation which maximizes angles of 0, 90, and 180 in the gradient, we have the straightenened image. This rotation was selected by maximizing the sum of the +/- 0, 90, and 180 degree bins from a histogram of angles in the gradient (above a certain magnitude).
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m3">
+        <p>
+          Original
+          </p>
+          <img class="zoom" src="images/facade.jpg" width="220" height="200">
+        </div>
+       <div class="row">
+        <div class="col s12 m3">
+        <p>
+          Straightened (-4 degrees)
+          </p>
+          <img class="zoom" src="images/facade_straightened.jpg" width="220" height="200">
+        </div>
+        <div class="col s12 m3">
+          <p>
+            Original histogram
+            </p>
+            <img class="zoom" src="images/facade_original_histogram.jpg" width="250" height="175">
+          </div>
+          <div class="col s12 m3">
+            <p>
+              Straightened histogram
+              </p>
+              <img class="zoom" src="images/facade_histogram.jpg" width="250" height="175">
+            </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m3">
+        <p>
+          Original
+          </p>
+          <img class="zoom" src="images/beads.jpg" width="250" height="200">
+        </div>
+       <div class="row">
+        <div class="col s12 m3">
+        <p>
+          Straightened (-19 degrees)
+          </p>
+          <img class="zoom" src="images/beads_straightened.jpg" width="200" height="200">
+        </div>
+        <div class="col s12 m3">
+          <p>
+            Original histogram
+            </p>
+            <img class="zoom" src="images/beads_original_histogram.jpg" width="250" height="175">
+          </div>
+          <div class="col s12 m3">
+            <p>
+              Straightened histogram
+              </p>
+              <img class="zoom" src="images/beads_histogram.jpg" width="250" height="175">
+            </div>
+    </div>
+    <div class="row">
+      <p>
+      For this image, it's debatable if the image straightening succeeded. The horizon is somewhat obscured due to the clouds and irregular rock positions, but it is much closer to being straight. There may not be a perfect straightened image for this since it depends on where you consider the horizon.  
+      </p>
+    </div>
+    <div class="row">
+      <div class="col s12 m3">
+        <p>
+          Original
+          </p>
+          <img class="zoom" src="images/me.jpg" width="190" height="250">
+        </div>
+       <div class="row">
+        <div class="col s12 m3">
+        <p>
+          Straightened (-26 degrees)
+          </p>
+          <img class="zoom" src="images/me_straightened.jpg" width="220" height="240">
+        </div>
+        <div class="col s12 m3">
+          <p>
+            Original histogram
+            </p>
+            <img class="zoom" src="images/me_original_histogram.jpg" width="250" height="175">
+          </div>
+          <div class="col s12 m3">
+            <p>
+              Straightened histogram
+              </p>
+              <img class="zoom" src="images/me_histogram.jpg" width="250" height="175">
+            </div>
+    </div>
+    <div class="row">
+      <p>
+      For this image, we can see the algorithm failed. We can see from the histogram how there aren't many gradient angles in the +/- 0, 90, 180 degrees to begin with, and that there are four evenly spaced peaks in the histogram compared to the previous images, which had odd numbers of peaks. That means there's no rotation where the peaks of the histogram coincide with the gradient angles we want. 
+      </p>
+    </div>
+    <div class="row">
+      <div class="col s12 m3">
+        <p>
+          Original
+          </p>
+          <img class="zoom" src="images/catty.JPG" width="190" height="250">
+        </div>
+       <div class="row">
+        <div class="col s12 m3">
+        <p>
+          Straightened (-49 degrees)
+          </p>
+          <img class="zoom" src="images/catty_straightened.jpg" width="240" height="240">
+        </div>
+        <div class="col s12 m3">
+          <p>
+            Original histogram
+            </p>
+            <img class="zoom" src="images/catty_original_histogram.jpg" width="250" height="175">
+          </div>
+          <div class="col s12 m3">
+            <p>
+              Straightened histogram
+              </p>
+              <img class="zoom" src="images/catty_histogram.jpg" width="250" height="175">
+            </div>
+    </div>
+    <div class="row">
+      <h6 class="smallheader">Part 2.1</h6>
+      <p>
+      In this part, we derive the unsharp mask filter by creating a convolution equivalent to adding a high pass filter to our image. As a result, this filter adds more high frequencies to the image.
+      </p>
+    </div>
+    <div class="row">
+      <div class="col s12 m6">
+        <p>
+          Original
+          </p>
+          <img class="zoom" src="images/taj.jpg" width="300" height="300">
+        </div>
+        <div class="col s12 m6">
+        <p>
+          Sharpened
+          </p>
+          <img class="zoom" src="images/taj_sharpened.jpg" width="300" height="300">
+        </div>
+    </div>
+
+    <div class="row">
+      <p>
+      Here, we blur the cat image and sharpen it again using our filter. We can see that our filter has enhanced the edges on the blurry photo, but it's still lost a lot of detail compared to the original. For example, the items in the window are harder to make out and some stripes on the cat are gone even after re-sharpening.  
+      </p>
+    </div>
+    <div class="row">
+      <div class="col s12 m4">
+        <p>
+          Original
+          </p>
+          <img class="zoom" src="images/outdoor_cat.JPG" width="300" height="300">
+        </div>
+        <div class="col s12 m4">
+          <p>
+            Blurred
+            </p>
+            <img class="zoom" src="images/outdoor_cat_sharpened.jpg" width="300" height="300">
+          </div>
+        <div class="col s12 m4">
+        <p>
+          Re-sharpened
+          </p>
+          <img class="zoom" src="images/outdoor_cat_resharpened.jpg" width="300" height="300">
+        </div>
+    </div>
+
+    <div class="row">
+      <h6 class="smallheader">Part 2.2</h6>
+      <p>
+      In this part, we create 'hybrid images.' Up close, the high frequencies dominate our interpretation of the image, while farther away, the lower frequencies form out interpretation of the image. These images are formed by an average of a high-pass filter on the first image and a low-pass filter on the second, after rotating and aligning.
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m4">
+      <p>
+        Nutmeg
+        </p>
+        <img class="zoom" src="images/nutmeg.jpg" width="300" height="250">
+      </div>
+      <div class="col s12 m4">
+        <p>
+          Derek
+          </p>
+          <img class="zoom" src="images/DerekPicture.jpg" width="230" height="300">
+        </div>
+      <div class="col s12 m4">
+      <p>
+        Nutmeg + Derek
+        </p>
+        <img class="zoom" src="images/hybrid_nutmeg_derek.jpg" width="230"  height="350">
+      </div>
+    </div>
+
+    <div class="row">
+      <p>
+      For the hybrid image above, Fourier analysis was performed by computing the log magnitudes of each image in the Fourier domain.
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m2">
+      <p>
+        Fourier on Nutmeg source image
+        </p>
+        <img class="zoom" src="images/fourier_nutmeg.jpg" width="140" height="180">
+      </div>
+      <div class="col s12 m2">
+        <p>
+          Fourier on Derek source image
+          </p>
+          <img class="zoom" src="images/fourier_DerekPicture.jpg" width="140" height="180">
+        </div>
+      <div class="col s12 m2">
+      <p>
+        Fourier on Nutmeg, after highpass filter
+        </p>
+        <img class="zoom" src="images/fourier_highpass_nutmeg.jpg" width="140" height="180">
+      </div>
+      <div class="col s12 m2">
+        <p>
+          Fourier on Derek, after lowpass filter
+          </p>
+          <img class="zoom" src="images/fourier_lowpass_DerekPicture.jpg" width="140" height="180">
+        </div>
+        <div class="col s12 m2">
+          <p>
+            Fourier on hybrid image
+            </p>
+            <img class="zoom" src="images/fourier_nutmeg_derek.jpg" width="140" height="180">
+          </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m4">
+      <p>
+        Go Won pouting
+        </p>
+        <img class="zoom" src="images/gowon_pout.jpg" width="280" height="300">
+      </div>
+      <div class="col s12 m4">
+        <p>
+          Go Won smiling
+          </p>
+          <img class="zoom" src="images/gowon_smile.jpg" width="200" height="300">
+        </div>
+      <div class="col s12 m4">
+      <p>
+        Hybrid pout + smile
+        </p>
+        <img class="zoom" src="images/hybrid_gowon.jpg" width="240" height="400">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m4">
+        <p>
+          Wolf
+          </p>
+          <img class="zoom" src="images/wolf.jpg" width="300" height="200">
+        </div>
+      <div class="col s12 m4">
+      <p>
+        Olivia
+        </p>
+        <img class="zoom" src="images/olivia.jpg" width="200" height="300">
+      </div>
+      <div class="col s12 m4">
+      <p>
+        Olivia + Wolf
+        </p>
+        <img class="zoom" src="images/hybrid_olivia.jpg" width="300" height="270">
+      </div>
+    </div>
+    <div class="row">
+      <p>
+      I consider the pizza cake to be a failure - despite the supposed similarity of the shapes, the intensity of the cake overwhelms the pizza and the shape of the cake is too distinguishable. Even with more blurring, the cake is too identifiable up close, despite the high frequency of the pizza also being visible. 
+      </p>
+    </div>
+    <div class="row">
+      <div class="col s12 m4">
+      <p>
+        Pizza
+        </p>
+        <img class="zoom" src="images/pizza.jpg" width="300" height="300">
+      </div>
+      <div class="col s12 m4">
+        <p>
+          Cake
+          </p>
+          <img class="zoom" src="images/cake.jpg" width="300" height="250">
+        </div>
+      <div class="col s12 m4">
+      <p>
+        Pizza + Cake?
+        </p>
+        <img class="zoom" src="images/hybrid_cake_pizza.jpg" width="300" height="250">
+      </div>
+    </div>
+
+    <div class="row">
+      <h6 class="smallheader">Part 2.3</h6>
+      <p>
+      In this part, I implemented a Gaussian and Laplacian stack. The Gaussian stack has a Gaussian with increasing sigma applied to the image as you descend the stack. The Laplacian stack at index i is the difference between the Gaussian images on the stack at index i and i+1. The final image on the Laplacian stack is the last image on the Gaussian stack. In the example below, we see that descending deeper Gaussian stack increasingly appears to be Lincoln, while the Laplacian shows the woman and her surroundings more sharply defined.
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m2">
+      <p>
+        Original
+        </p>
+        <img class="zoom" src="images/gauss_0.jpg" width="150" height="150">
+      </div>
+      <div class="col s12 m2">
+        <p>
+          Sigma = 1
+          </p>
+          <img class="zoom" src="images/gauss_1.jpg" width="150" height="150">
+        </div>
+      <div class="col s12 m2">
+      <p>
+        Sigma = 2
+        </p>
+        <img class="zoom" src="images/gauss_2.jpg" width="150" height="150">
+      </div>
+      <div class="col s12 m2">
+        <p>
+          Sigma = 4
+          </p>
+          <img class="zoom" src="images/gauss_3.jpg" width="150" height="150">
+        </div>
+      <div class="col s12 m2">
+      <p>
+        Sigma = 16
+        </p>
+        <img class="zoom" src="images/gauss_4.jpg" width="150" height="150">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m2">
+      <p>
+        </p>
+        <img class="zoom" src="images/laplace_0.jpg" width="150" height="150">
+      </div>
+      <div class="col s12 m2">
+        <p>
+          </p>
+          <img class="zoom" src="images/laplace_1.jpg" width="150" height="150">
+        </div>
+      <div class="col s12 m2">
+      <p>
+        </p>
+        <img class="zoom" src="images/laplace_2.jpg" width="150" height="150">
+      </div>
+      <div class="col s12 m2">
+        <p>
+          </p>
+          <img class="zoom" src="images/laplace_3.jpg" width="150" height="150">
+        </div>
+      <div class="col s12 m2">
+      <p>
+        </p>
+        <img class="zoom" src="images/laplace_4.jpg" width="150" height="150">
+      </div>
+    </div>
+
+    <div class="row">
+      <p>
+      Here I apply the Gaussian and Laplacian stacks to one of my hybrid images. We can see that traversing deeper into the Gaussian stack increasingly shows the low-frequency smiling image, while the Laplacian stack starts with the high-frequency pouting image, which becomes more obscured the deeper you go. 
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m2">
+      <p>
+        Original
+        </p>
+        <img class="zoom" src="images/gauss_hybrid_0.jpg" width="150" height="220">
+      </div>
+      <div class="col s12 m2">
+        <p>
+          Sigma = 1
+          </p>
+          <img class="zoom" src="images/gauss_hybrid_1.jpg" width="150" height="220">
+        </div>
+      <div class="col s12 m2">
+      <p>
+        Sigma = 2
+        </p>
+        <img class="zoom" src="images/gauss_hybrid_2.jpg" width="150" height="220">
+      </div>
+      <div class="col s12 m2">
+        <p>
+          Sigma = 4
+          </p>
+          <img class="zoom" src="images/gauss_hybrid_3.jpg" width="150" height="220">
+        </div>
+      <div class="col s12 m2">
+      <p>
+        Sigma = 16
+        </p>
+        <img class="zoom" src="images/gauss_hybrid_4.jpg" width="150" height="220">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m2">
+      <p>
+        </p>
+        <img class="zoom" src="images/laplace_hybrid_0.jpg" width="150" height="220">
+      </div>
+      <div class="col s12 m2">
+        <p>
+          </p>
+          <img class="zoom" src="images/laplace_hybrid_1.jpg" width="150" height="220">
+        </div>
+      <div class="col s12 m2">
+      <p>
+        </p>
+        <img class="zoom" src="images/laplace_hybrid_2.jpg" width="150" height="220">
+      </div>
+      <div class="col s12 m2">
+        <p>
+          </p>
+          <img class="zoom" src="images/laplace_hybrid_3.jpg" width="150" height="220">
+        </div>
+      <div class="col s12 m2">
+      <p>
+        </p>
+        <img class="zoom" src="images/laplace_hybrid_4.jpg" width="150" height="220">
+      </div>
+    </div>
+
+    <div class="row">
+      <h6 class="smallheader">Part 2.4</h6>
+      <p>
+      Finally, we look at multiresolution blending: blending two images together across a seam in a smooth way. This blend is achieved by applying a mask onto each level of the Laplacian stacks of the source images, and recombining the resulting Laplacian to the result image. 
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m3">
+      <p>
+        Orange
+        </p>
+        <img class="zoom" src="images/orange.jpeg" width="250" height="250">
+      </div>
+      <div class="col s12 m3">
+        <p>
+          Apple
+          </p>
+          <img class="zoom" src="images/apple.jpeg" width="250" height="250">
+        </div>
+      <div class="col s12 m3">
+      <p>
+        Oraple
+        </p>
+        <img class="zoom" src="images/oraple.jpg" width="250" height="250">
+      </div>
+      <div class="col s12 m3">
+        <p>
+          Oraple
+          </p>
+          <img class="zoom" src="images/oraple_color.jpg" width="250" height="250">
+        </div>
+    </div>
+
+    <div class="row">
+      <p>
+      The following examples use irregular masks to join images together.
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m3">
+      <p>
+        Pineapple
+        </p>
+        <img class="zoom" src="images/pineapple.jpg" width="250" height="250">
+      </div>
+      <div class="col s12 m3">
+        <p>
+          Go Won
+          </p>
+          <img class="zoom" src="images/gowon_pineapple.jpg"  width="250" height="250">
+        </div>
+        <div class="col s12 m3">
+          <p>
+            Mask
+            </p>
+            <img class="zoom" src="images/pineapple_mask.jpg"  width="250" height="250">
+          </div>
+        <div class="col s12 m3">
+          <p>
+            Result
+            </p>
+            <img class="zoom" src="images/blend_gowon_pineapple.jpg"  width="250" height="250">
+          </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 m3">
+      <p>
+        Onion
+        </p>
+        <img class="zoom" src="images/onion.jpg" width="250" height="250">
+      </div>
+      <div class="col s12 m3">
+        <p>
+          Go Won
+          </p>
+          <img class="zoom" src="images/gowon_onion.jpg"  width="250" height="250">
+        </div>
+        <div class="col s12 m3">
+          <p>
+            Mask
+            </p>
+            <img class="zoom" src="images/onion_mask.jpg"  width="250" height="250">
+          </div>
+        <div class="col s12 m3">
+          <p>
+            Result
+            </p>
+            <img class="zoom" src="images/blend_gowon_onion.jpg"  width="250" height="250">
+          </div>
+    </div>
+
+    <div class="row">
+      <h6 class="smallheader">Coolest thing I learned</h6>
+      <p>
+      I think Laplacian stacks and their applications were super cool. I had no idea that an image could be deconstructed and (mostly) re-constructed that way, and using them to split together images and create the blended images in 2.4 felt more like magic than math.  
+      </p>
+    </div>
+
+     <div class="row">
+       <span class="smol">thanks for checking out my submission! :D</span>
+       <!-- :)))) -->
+       </div>
+  </div>
+</body>
