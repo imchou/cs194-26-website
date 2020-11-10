@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"></html><head>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<style>
+body{
+  color: #6F6866;
+}
+h1 {
+    color: #788585;
+    font-weight: 300;
+}
+h4 {
+    color: #38302E;
+}
+.smallheader {
+    color: #FFBA08;
+    font-weight: bold;
+}
+.zoom:hover {
+  transform: scale(1.5);
+}
+.smol {
+  font-size: 0.7rem;
+}
+</style>
+<body>
+  <div class="container">
+    <div class="row">
+      <h1 class="header">CS 194-26: Project 4</h1>
+      <h4>Facial Keypoint Detection with Neural Networks</h4>
+      <h5>Imaani Choudhuri</h5>
+    </div>
+    <div class="row">
+      <h6 class="smallheader">Part 1: Nose Tip Detection</h6>
+      <p>
+      The first part of this project consist of training a neural network to predict where the bottom of the nose would be on a facial image. 
+      </p>
+    </div>
+    <span class="smol">hover to enlarge</span>
+     <div class="row">
+     <p>
+      Here are some images sampled from my dataloader with the true nose keypoint:
+       </p>
+       <img class="zoom" src="images/groundtruth_0_part1.png" width="500" height="400">
+    </div>
+    <div class="row">
+      <p>
+        Here is the training and validation MSE loss during the training process (green is validation, blue is training):
+      </p>
+      <img class="zoom" src="images/lossgraph_part1.png" width="400" height="300">
+    </div>
+    <div class="row">
+      <p>
+        Here are some results. As you can see, the fifth and eighth images in the second batch detects the nose very well, while the second, fourth and eighth images in the first batch do not. I suspect this is because the neural net confuses the nose region with changes in facial topography, like the cheek recesses in the failure cases. 
+      </p>
+      <img class="zoom" src="images/0_part1.png" width="500" height="400">
+      <img class="zoom" src="images/4_part1.png" width="500" height="400">
+    </div>
+    <div class="row">
+      <h6 class="smallheader">Part 2: Full Facial Keypoints Detection</h6>
+      <p>
+        The second part of this project is training all 58 keypoints on the same dataset, with a small neural network. Specifically, my architecture used 5 convolutional layers and two linear layers, with maxpools (on convolutions) and relu after each layer (except the last). 
+        My hyperparameters were a learning rate 1e-03 with the Adam optimizer and MSE loss, a batch size of 4, and 12 epochs of training.
+      </p>
+    </div>
+    <div class="row">
+      <p>
+       Here are some images sampled from my dataloader with the true keypoints:
+        </p>
+        <img class="zoom" src="images/groundtruth_0_part2.png" width="500" height="400">
+     </div>
+     <div class="row">
+       <p>
+         Here is the training and validation MSE loss during the training process (green is validation, blue is training):
+       </p>
+       <img class="zoom" src="images/lossgraph_part2.png" width="400" height="300">
+     </div>
+     <div class="row">
+       <p>
+         Here are some results. As you can see, the first image in the first batch and the last image in the second batch appear to be quite good predictions, but the last image of the first batch and third image of the second batch appear to be quite off. 
+         The failure cases seem to be mainly on turned faces, but not all turned faces. It appears that sometimes the neural net will recognize half the face, and incorrectly predicts which side the rest of the face goes. The neural net tends to choose whichever option is more centered, which makes sense given that the majority of faces in the dataset are front-facing and centered. 
+       </p>
+       <img class="zoom" src="images/6_part2.png" width="500" height="400">
+       <img class="zoom" src="images/10_part2.png" width="500" height="400">
+     </div>
+     <div class="row">
+      <p>
+        Here are the learned filters for the first convolutional layer. (I calculated them for the subsequent layers as well, but the images were very large and wouldn't fit).
+      </p>
+      <img src="images/filters_0_part2.png" width="900" height="150">
+    </div>
+     <div class="row">
+      <h6 class="smallheader">Part 3: Train With Larger Dataset</h6>
+      <p>
+      In the final part, we do the same as last part but on a much larger dataset. I used the recommended architecture, resnet18 modified to take one channel as input and output 68*2 points. 
+      My hyperparameters were similar to part 2, learning rate 1e-03 with the Adam optimizer and MSE loss, a batch size of 6, and 10 epochs.
+      </p>
+    </div>
+     <div class="row">
+       <p>
+         Here is the MSE loss over training epochs:
+       </p>
+       <img class="zoom" src="images/lossgraph_part3.png">
+     </div>
+     <div class="row">
+       <p>
+         Here are some results. 
+       </p>
+       <img class="zoom" src="images/0_part3.png" width="500" height="400">
+       <img class="zoom" src="images/3_part3.png" width="500" height="400">
+     </div>
+
+     <div class="row">
+       <span class="smol">thanks for checking out my submission! :D</span>
+       <!-- hehehe -->
+       </div>
+  </div>
+</body>
