@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"></html><head>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<style>
+body{
+  color: #6F6866;
+}
+h1 {
+    color: #788585;
+    font-weight: 300;
+}
+h4 {
+    color: #38302E;
+}
+.smallheader {
+    color: #FFBA08;
+    font-weight: bold;
+}
+.zoom:hover {
+  transform: scale(1.5);
+}
+.smol {
+  font-size: 0.7rem;
+}
+</style>
+<body>
+  <div class="container">
+    <div class="row">
+      <h1 class="header">CS 194-26: Project 5A</h1>
+      <h4>Image Warping and Mosaicing</h4>
+      <h5>Imaani Choudhuri</h5>
+    </div>
+    <div class="row">
+      <h6 class="smallheader">Part 1: Shoot Images, Determine Correspondences</h6>
+      <p>
+      I used images I took a while ago for this project. In the first part, I made a clicking tool to select points on an image and record them to a .json file. I started off by selecting the corners of a table for image rectification. 
+      </p>
+    </div>
+    <span class="smol">hover to enlarge</span>
+    <div class="row">
+      <div class="col s12 m6">
+        <p> My cat on a placemat </p>
+        <img class="zoom" src="images/cat_main.JPG" width="250" height="300">
+      </div>
+      <div class="col s12 m6">
+        <p> Different angle </p>
+        <img class="zoom" src="images/cat_experiment.JPG" width="300" height="250">
+      </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+          <p> The selected points </p>
+          <img class="zoom" src="images/cat_points.png" width="300" height="250">
+        </div>
+        <div class="col s12 m6">
+          <p> The selected points </p>
+          <img class="zoom" src="images/cat_points2.png" width="250" height="250">
+        </div>
+      </div>
+    <div class="row">
+      <h6 class="smallheader">Part 2: Recover Homographies</h6>
+      <p>
+        The second part of this project is recovering homographies between the set of correspondences. The strategy I used for writing code for this part was very similar to project 3 with the affine transformation and inverse warping, but I modified it to find a homography matrix. 
+      </p>
+    </div>
+     <div class="row">
+      <h6 class="smallheader">Part 3: Image Rectification</h6>
+      <p>
+      In this part I used the homography matrix between the table points and a front-parallel square to rectify the original image. This was done by applying the homography to perform the transformation, and then inverse warping to perform interpolation for the colors. 
+      </p>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+          <p> Table rectified to front-parallel </p>
+          <img class="zoom" src="images/p3_warped_cat_main.JPG" width="300" height="250">
+        </div>
+        <div class="col s12 m6">
+            <p> :( </p>
+          <img class="zoom" src="images/p3_warped_cat_experiment.JPG" width="300" height="250">
+        </div>
+    </div>
+
+    <div class="row">
+        <h6 class="smallheader">Part 4: Image Mosaics</h6>
+        <p>
+        In this part I created image mosaics by finding correspondences between images and then warping one image into the other. I took all of these images around January of this year, and so unfortunately the exposures as well as some of the subject locations (water, plants) differed between both shots. I attempted to blend together the seams between the images with a 2-layer Laplacian pyramid. 
+        </p>
+      </div>
+      <div class="row">
+          <div class="col s12 m6">
+            <p> Original image 1</p>
+            <img class="zoom" src="images/waterfall1.JPG" width="300" height="250">
+          </div>
+          <div class="col s12 m6">
+            <p> Original image 2 </p>
+            <img class="zoom" src="images/waterfall2.JPG" width="300" height="250">
+          </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <p> Result</p>
+          <img class="zoom" src="images/p4_mosaic_waterfall1.JPG" width="500" height="400">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m6">
+          <img class="zoom" src="images/stream1.jpg" width="300" height="250">
+        </div>
+        <div class="col s12 m6">
+          <img class="zoom" src="images/stream2.jpg" width="300" height="250">
+        </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <img class="zoom" src="images/p4_mosaic_stream1.jpg" width="450" height="400">
+      </div>
+  </div>
+
+    <div class="row">
+        <div class="col s12 m6">
+            <img class="zoom" src="images/cave_1.jpg" width="300" height="250">
+        </div>
+        <div class="col s12 m6">
+            <img class="zoom" src="images/cave_2.jpg" width="300" height="250">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <p> Result with 2 level Laplacian stack blending </p>
+            <img class="zoom" src="images/p4_mosaic_cave_1.jpg" width="450" height="400">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <p> I wasn't super satisfied, so I tried an 8 level stack. </p>
+            <img class="zoom" src="images/p4_mosaic_cave_1_8_stack.jpg" width="450" height="400">
+        </div>
+        <p> It still wasn't great because there was only so much I could blend when the exposures differed, but it looks better. </p>
+    </div>
+
+    <div class="row">
+        <h6 class="smallheader">Coolest thing I learned</h6>
+        <p>
+        The overall premise of the project was pretty cool - while I was taking these photos with my phone, I was pretty bummed about not being able to capture a certain composition I wanted in a frame. I didn't know that it was possible to mathematically warp them together, and all you needed to do was define some correspondences. I think this is a super cool technique that I might use on photos in the future, and in the future I'll also try maintaining the same exposure when taking photos for this purpose.
+        </p>
+      </div>
+
+     <div class="row">
+       <span class="smol">thanks for checking out my submission! :D</span>
+       <!-- hehehe -->
+       </div>
+  </div>
+</body>
