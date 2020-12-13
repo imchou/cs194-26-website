@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"></html><head>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<style>
+body{
+  color: #6F6866;
+}
+h1 {
+    color: #788585;
+    font-weight: 300;
+}
+h4 {
+    color: #38302E;
+}
+.smallheader {
+    color: #FFBA08;
+    font-weight: bold;
+}
+.zoom:hover {
+  transform: scale(1.5);
+}
+.smol {
+  font-size: 0.7rem;
+}
+</style>
+<body>
+  <div class="container">
+    <div class="row">
+      <div id="tri"></div>
+      <h1 class="header">CS 194-26: Final Projects</h1>
+      <h4>Triangulation Matting and Compositing</h4>
+      <h5>Imaani Choudhuri</h5>
+      <span class="smol"><a href="#aug">click here to go to other project</a></span>
+    </div>
+    <div class="row">
+      <h6 class="smallheader">Part 1: Shoot Images</h6>
+      <p>
+      In this project, we compute a semi-transparent object's alpha matte using the triangulation matting method. This method uses 4 images to obtain 4 equations to solve for the 4 unknowns (r, g, b and alpha). These images are obtained by shooting pictures of the semi-transparent object in front of two different backgrounds.
+      </p>
+    </div>
+    <span class="smol">hover to enlarge</span>
+    <div class="row">
+      <div class="col s12 m6">
+        <p> Toothpick holder, white background </p>
+        <img class="zoom" src="images/cat_main.JPG" width="250" height="300">
+      </div>
+      <div class="col s12 m6">
+        <p> White background </p>
+        <img class="zoom" src="images/cat_experiment.JPG" width="300" height="250">
+      </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+          <p> Toothpick holder, gold background </p>
+          <img class="zoom" src="images/cat_points.png" width="300" height="250">
+        </div>
+        <div class="col s12 m6">
+          <p> Gold background </p>
+          <img class="zoom" src="images/cat_points2.png" width="250" height="250">
+        </div>
+    </div>
+    <div class="row">
+      <div class="col s12 m12">
+        <p> Resulting alpha matte </p>
+        <img class="zoom" src="images/cat_points.png" width="300" height="250">
+      </div>
+  </div>
+    <div class="row">
+      <h6 class="smallheader">Part 2: Recover Homographies</h6>
+      <p>
+        The second part of this project is recovering homographies between the alpha matte and a new image. In this case, I selected this image taken at Sequoia National Park, and selected the result homography points at the base of the tree.
+      </p>
+      <div class="row">
+        <div class="col s12 m12">
+          <p> New image </p>
+          <img class="zoom" src="images/cat_points.png" width="300" height="250">
+        </div>
+    </div>
+     <div class="row">
+      <h6 class="smallheader">Part 3: Image Rectification</h6>
+      <p>
+      In this part I used the homography matrix to warp the image and perform alpha blending to combine the toothpick holder into the new image. 
+      </p>
+    </div>
+    <div class="row">
+      <div class="col s12 m12">
+        <p> Result </p>
+        <img class="zoom" src="images/cat_points.png" width="300" height="250">
+      </div>
+      
+      <div class="row"></div>
+
+      <div id="aug"></div>
+      <div class="row">
+        <h4>Augmented Reality</h4>
+        <span class="smol"><a href="#tri">click here to go to other project</a></span>
+      </div>
+      <div class="row">
+        <h6 class="smallheader">Part 1: Choose points</h6>
+        <p>
+        For this project, the first step is to take a video of the object and select 20 points for tracking, and also record their 3d locations. I chose the bottom left point of the box to be (0, 0, 0) and manually selected these following points.
+        </p>
+      </div>
+
+      <div class="row">
+          <div class="col s12 m6">
+            <p>Original video</p>
+            <img class="zoom" src="images/waterfall1.JPG" width="300" height="250">
+          </div>
+          <div class="col s12 m6">
+            <p>Points chosen in first frame</p>
+            <img class="zoom" src="images/waterfall1.JPG" width="300" height="250">
+          </div>
+      </div>
+
+    <div class="row">
+        <h6 class="smallheader">Part 2: Tracking points</h6>
+        <p>
+        In this part, I used an object tracker (cv2.TrackerMedianFlow) to track each point over each frame. This way, I was able to obtain the location of each point in 2D across every frame, and knew the point locations in 3D, so the next part would be possible. Here is a video of the tracked points in video. 
+        </p>
+      </div>
+      <div class="row">
+        <img class="zoom" src="images/waterfall1.JPG" width="300" height="250">
+      </div>
+
+      <div class="row">
+        <h6 class="smallheader">Part 3: Projecting the Cube</h6>
+        <p>
+        Using the 3D point locations and the 2D points tracked in each frame, I was able to calculate the camera projection matrix that relates the two. I could then take cube coordinates in a 3d location and project that using the camera matrix to get where it should be in the camera view, and draw a cube onto the video as such. 
+        </p>
+      </div>
+      <div class="row">
+        <img class="zoom" src="images/waterfall1.JPG" width="300" height="250">
+      </div>
+
+     <div class="row">
+       <span class="smol">thanks for checking out my submission! :D</span>
+       <!-- woo it's over -->
+       </div>
+  </div>
+</body>
